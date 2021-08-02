@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Logging
 {
-    public class Divider : IAlgorithm
+    public class Multiplier : IAlgorithm
     {
         private ILogger _logger;
 
-        public Divider(ILogger logger)
+        public Multiplier(ILogger logger)
         {
             this.Logger = logger;
         }
@@ -24,21 +24,9 @@ namespace Logging
 
         public int Calculate(int first, int second)
         {
-            Logger.LogInformation("Divider calculate start.");
+            Logger.LogInformation("Multiplier calculate start.");
 
-            int result;
-
-            try
-            {
-                result = first / second;
-                return result;
-            }
-            catch (Exception e)
-            {
-                Logger.LogCritical("An unexpected error occurred at the time of the division.", e);
-            }
-
-            return 0;
+            return first * second;
         }
     }
 }

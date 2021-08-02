@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Logging
 {
-    public class Divider : IAlgorithm
+    public class Subtractor : IAlgorithm
     {
         private ILogger _logger;
 
-        public Divider(ILogger logger)
+        public Subtractor(ILogger logger)
         {
             this.Logger = logger;
         }
@@ -24,21 +24,28 @@ namespace Logging
 
         public int Calculate(int first, int second)
         {
-            Logger.LogInformation("Divider calculate start.");
+            Logger.LogInformation("Subtractor calculate start.");
 
             int result;
 
             try
             {
-                result = first / second;
-                return result;
+                result = checked(first - second);
             }
-            catch (Exception e)
+            catch (OverflowException)
             {
-                Logger.LogCritical("An unexpected error occurred at the time of the division.", e);
+                Logger.LogInformation("Overflow occurred during subtractorion");
+            }
+            catch
+            {
+                Logger.LogWarning("An unknown error occurred during the subtractorion.");
+            }
+            finally
+            {
+                result = unchecked(first - second);
             }
 
-            return 0;
+            return result;
         }
     }
 }
